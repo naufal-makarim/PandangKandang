@@ -99,6 +99,12 @@
         .tab-content.active {
             display: block;
         }
+
+        .bg-image {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     </style>
 </head>
 
@@ -109,7 +115,8 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <img src="./logo.png" alt="Pandang Kandang Logo" class="h-10 w-10 rounded-full">
+                    <div class="h-10 w-10 rounded-full bg-image bg-gray-200"
+                        style="background-image: url('./logo.png')"></div>
                     <h1 class="ml-3 text-xl font-bold tracking-tighter">Pandang Kandang</h1>
                 </div>
                 <nav class="hidden md:flex space-x-8 items-center">
@@ -273,7 +280,7 @@
                         <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
                             <!-- Left Column: Description -->
                             <div class="flex flex-col justify-center">
-                                <img src="./${solution.module_id}.png" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E91E21/FFFFFF?text=${solution.productNames[0].replace(' ', '+')}';" alt="${solution.productNames[0]}" class="rounded-lg shadow-lg mb-8 w-full aspect-video object-cover">
+                                <div class="rounded-lg shadow-lg mb-8 w-full aspect-video bg-image bg-gray-200" style="background-image: url('./${solution.module_id}.png')"></div>
                                 <span class="font-semibold main-red">${solution.module_group}</span>
                                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mt-1">${solution.productNames[0]}</h2>
                                 <p class="text-gray-500 font-medium mb-4">${solution.productNames.slice(1).join(' / ')}</p>
@@ -385,11 +392,11 @@
                 const grid = document.getElementById('competitors-grid');
                 if (!competitors || !grid) return;
                 grid.innerHTML = competitors
-                    .filter(c => c.name && c.description && !c.description.toLowerCase().includes("information"))
+                    .filter(c => c.name && c.description && !c.description.includes("Information not readily available"))
                     .map(c => `
                     <div class="card p-6 flex flex-col space-y-4">
                         <div class="flex items-center space-x-4">
-                            <img src="./${c.name.replace(/\s/g, '')}.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/cccccc/333333?text=${c.name.charAt(0)}';" alt="${c.name} Logo" class="w-16 h-16 rounded-full flex-shrink-0 object-cover">
+                            <div class="w-16 h-16 rounded-full flex-shrink-0 bg-image bg-gray-200" style="background-image: url('./${c.name.replace(/\s/g, '')}.png')"></div>
                             <div>
                                 <h3 class="text-xl font-bold">${c.name}</h3>
                                  <a href="${c.site}" target="_blank" rel="noopener noreferrer" class="text-sm main-red hover:underline break-all">${c.site}</a>
@@ -431,7 +438,7 @@
                 ];
                 grid.innerHTML = teamMembers.map(member => `
                     <div class="text-center">
-                        <img src="./${member.name.split(' ').map(n => n[0]).join('')}.png" onerror="this.onerror=null;this.src='https://placehold.co/200x200/F9FAFB/E91E21?text=${member.name.split(' ').map(n => n[0]).join('')}';" alt="Avatar for ${member.name}" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                        <div class="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg bg-image bg-gray-200" style="background-image: url('./${member.name.split(' ').map(n => n[0]).join('')}.png')"></div>
                         <h4 class="text-xl font-bold">${member.name}</h4>
                         <p class="main-red font-semibold">${member.title}</p>
                     </div>
