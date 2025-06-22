@@ -1,0 +1,1085 @@
+{
+    "pandangKandangSolutions": [
+        {
+            "module_id": "PKS-01",
+            "module_group": "Initial Stocking & Growth",
+            "productNames": [
+                "ChickGrade Pro",
+                "OptiChick Select",
+                "DOC PrimeSort"
+            ],
+            "description": {
+                "issue_to_be_solved": "Manual sorting of Day Old Chicks (DOC) is subjective, time-consuming, and prone to error, leading to non-uniform flock growth and increased early mortality. Farmers lack an objective way to classify chicks based on key health indicators.",
+                "job_to_be_done": "To automatically and rapidly classify incoming DOCs into quality grades (e.g., Premium, Standard, Sub-par) based on measurable physical attributes, ensuring a uniform and healthy initial flock.",
+                "business_performance_improvement": "Reduces early mortality by 2-4%. Improves flock uniformity, leading to more predictable growth cycles and a higher percentage of birds reaching target weight simultaneously. Saves labor costs associated with manual sorting."
+            },
+            "technical_specification": {
+                "general_workflow": "DOCs are placed on a conveyor belt which passes through a scanning station. An imaging system captures data, which is processed by an AI model to assign a grade. A sorting mechanism then gently separates the chicks into different holding pens based on their assigned grade.",
+                "technical_workflow": "DOC placed on conveyor -> Conveyor moves chick under camera and weight sensor -> High-resolution camera captures image, and a load cell captures weight -> Data (image + weight) sent to local processing unit -> AI model analyzes image for visual indicators (activity, open beak, navel condition) and combines with weight -> Classification grade is determined -> Signal sent to pneumatic sorter arm -> Sorter arm gently diverts chick to the appropriate collection bin.",
+                "sensors_used": [
+                    "High-resolution RGB Camera",
+                    "Load Cell / Digital Scale",
+                    "Infrared Sensor (for presence detection)"
+                ],
+                "actuators_used": [
+                    "Conveyor Belt Motor",
+                    "Pneumatic Gate/Arm Sorter"
+                ],
+                "data": {
+                    "stored": "For each batch: Chick ID (sequential), weight, high-res image, assigned grade, date/time. Aggregated data: batch number, grade distribution percentage, average weight.",
+                    "transmitted": "Real-time grading results to the dashboard. Batch summary report upon completion.",
+                    "transformed": "Raw pixel data from image transformed into health indicators (e.g., 'navel_quality_score', 'activity_level'). Raw grams from load cell transformed into a weight classification. These features are then transformed into a final 'Grade' (A, B, C)."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Manual Assist Sorter",
+                        "description": "A stationary system with a camera and a scale. An operator places a chick, the system displays a recommended grade on a screen, and the operator manually sorts the chick. Focuses on proving the classification algorithm.",
+                        "sensors": [
+                            "USB Webcam",
+                            "Basic Digital Scale with data output"
+                        ],
+                        "actuators": [
+                            "None (manual sorting)"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "Automated Lane Sorter",
+                        "description": "A fully automated system as described in the main workflow. A conveyor belt with a single analysis point sorts chicks into 2-3 grades. Suitable for medium to large farms.",
+                        "sensors": [
+                            "Industrial High-resolution Camera",
+                            "In-line Load Cell"
+                        ],
+                        "actuators": [
+                            "Conveyor Belt Motor",
+                            "Pneumatic Gate Sorter"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "High-Throughput Multi-Metric Sorter",
+                        "description": "A high-speed conveyor system with multiple analysis stations, incorporating thermal imaging to detect temperature anomalies and advanced AI to predict future growth potential. Includes integration with the Flock Data Management module.",
+                        "sensors": [
+                            "High-speed Industrial Camera",
+                            "In-line Load Cell",
+                            "Micro-bolometer Thermal Camera"
+                        ],
+                        "actuators": [
+                            "Variable Speed Conveyor",
+                            "Multi-gate Pneumatic Sorter"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "Real-time dashboard showing the number of chicks sorted, grade distribution (e.g., 85% Grade A, 10% Grade B, 5% Grade C), average weight per grade, and total throughput. Historical batch analysis reports.",
+                "field_actuation": {
+                    "trigger": "AI model outputting a classification grade (e.g., 'A', 'B', or 'C').",
+                    "actuator_and_action": "Pneumatic Gate Sorter: Receives signal for 'Grade A' and does nothing (chick continues on main path). Receives signal for 'Grade B' and opens Gate 1 to divert the chick. Receives signal for 'Grade C' and opens Gate 2."
+                },
+                "subscription_benefits": "Access to the classification dashboard, regular updates to the AI grading model, system maintenance and support, data backup and cloud storage."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Unggas Sejahtera (Broiler Farm)",
+                    "before": "Hired 5 temporary workers for 8 hours to manually sort 50,000 DOCs. Sorting was inconsistent, resulting in a 5% mortality rate in the first week and uneven growth, causing a 3-day delay in reaching harvest weight for 15% of the flock.",
+                    "after": "Using 'ChickGrade Pro', one operator oversees the sorting of 50,000 DOCs in 4 hours. First-week mortality dropped to 2.5%. Flock uniformity increased, with 95% of chickens reaching target weight within the same 2-day window, improving harvest efficiency and profitability."
+                },
+                {
+                    "client": "CV Telur Emas (Layer Farm)",
+                    "before": "Received DOCs and placed them directly into brooding pens. They experienced varied growth rates, leading to delayed onset of lay for smaller pullets and increased pecking/bullying from larger birds.",
+                    "after": "Implementing 'OptiChick Select', they sort pullets by weight and vitality. This allows them to create uniform brooding groups, providing targeted nutrition for each group. This resulted in a more synchronized onset of egg-laying across the flock and a 3% increase in peak production."
+                }
+            ]
+        },
+        {
+            "module_id": "PKS-02",
+            "module_group": "Health & Behavior",
+            "productNames": [
+                "PoultryGuard AI",
+                "KandangSense",
+                "FlockWatch"
+            ],
+            "description": {
+                "issue_to_be_solved": "Subtle signs of disease and stress (e.g., slight temperature change, coughing, lethargy, cannibalism) are often missed by human observation in large flocks until the problem is widespread, leading to high treatment costs and significant losses.",
+                "job_to_be_done": "To continuously and non-invasively monitor the flock 24/7 for early indicators of disease and negative behaviors, providing immediate alerts to farm managers for proactive intervention.",
+                "business_performance_improvement": "Reduces mortality rates by 3-7% through early disease detection. Lowers medication costs by enabling targeted treatment instead of mass medication. Improves feed conversion ratio (FCR) by minimizing stress and sickness-related appetite loss. Reduces losses from cannibalism."
+            },
+            "technical_specification": {
+                "general_workflow": "A network of sensors (thermal, visual, acoustic) placed throughout the chicken house continuously collects data. This data is fed into an AI platform that analyzes patterns and detects anomalies. When a potential issue is identified, an alert is sent to the farmer's dashboard and mobile device with specific details.",
+                "technical_workflow": "Thermal cameras scan for temperature distribution. Microphones capture flock vocalizations. RGB cameras monitor movement and behavior. Sensor data is streamed to an on-premise IoT gateway -> Gateway pre-processes and forwards data to a cloud server -> AI models for thermal analysis, acoustic event detection (e.g., coughing), and computer vision (e.g., piling, aggression) analyze the data streams -> If an anomaly score exceeds a set threshold (e.g., 5% of birds are lethargic), an alert object is created -> The system pushes a notification to the user interface/app.",
+                "sensors_used": [
+                    "Thermal Imaging Camera",
+                    "Wide-spectrum Microphone Array",
+                    "High-resolution Wide-angle RGB Camera",
+                    "Classic Digital Thermometer/Hygrometer"
+                ],
+                "actuators_used": [
+                    "Alert Siren/Light (optional)",
+                    "Integration with Ventilation System (in comprehensive tier)"
+                ],
+                "data": {
+                    "stored": "Time-stamped sensor data snippets (e.g., 30-second audio clips of coughing, thermal images of hotspots, video clips of fighting). Alert logs (type, time, location, severity). Daily summary of key indicators (activity level, vocalization index, temperature uniformity).",
+                    "transmitted": "Real-time alert data (JSON payload with alert type, location, and supporting data snippet). Periodic summary reports.",
+                    "transformed": "Raw audio waveform transformed into 'Cough Count' or 'Distress Call Index'. Raw video pixels transformed into 'Mobility Index' or 'Aggression Events'. Raw thermal data transformed into 'Temperature Anomaly Map' and 'Average Flock Temperature'."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Acoustic Cough Detector",
+                        "description": "A single microphone connected to a Raspberry Pi running a simple machine learning model to detect coughing sounds characteristic of respiratory infections. Sends an email alert when the cough rate exceeds a threshold.",
+                        "sensors": [
+                            "USB Microphone"
+                        ],
+                        "actuators": [
+                            "None"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "Visual & Thermal Monitoring",
+                        "description": "A combination of one thermal camera and one RGB camera per zone. The system detects temperature anomalies (fever), huddling (cold stress), and low activity levels (lethargy). Provides alerts with images on a web dashboard.",
+                        "sensors": [
+                            "Thermal Imaging Camera",
+                            "RGB Camera"
+                        ],
+                        "actuators": [
+                            "Alert Siren (optional)"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "Multi-Sensor AI Fusion System",
+                        "description": "A dense network of thermal, visual, and acoustic sensors. An advanced AI fuses the data to provide high-accuracy alerts for a wide range of issues (disease, fighting, cannibalism, heat/cold stress). The system can pinpoint the location of the issue within the house and automatically adjust environmental controls (e.g., increase ventilation if heat stress is detected).",
+                        "sensors": [
+                            "Thermal Camera Array",
+                            "Microphone Array",
+                            "4K RGB Camera Array"
+                        ],
+                        "actuators": [
+                            "Alert Siren",
+                            "Integration with IoT EcoController (fans, heaters)"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "A visual layout of the chicken house with real-time health 'hotspots'. An alert feed detailing current and past issues (e.g., 'Alert: Respiratory distress detected in Zone 3 at 4:15 AM'). Trend graphs for activity levels, flock temperature, and distress vocalizations.",
+                "field_actuation": {
+                    "trigger": "Tier 3 example: AI detects average flock temperature from thermal camera rising above 32°C AND visual AI detects panting behavior.",
+                    "actuator_and_action": "IoT EcoController: System sends a command to increase ventilation fan speed by 20% and activate the misting system for 2 minutes."
+                },
+                "subscription_benefits": "24/7 monitoring service, continuous AI model improvement (learning new disease patterns), access to the multi-platform dashboard and alert system, cloud storage of incident data."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Broiler Prima",
+                    "before": "A Gumboro disease outbreak was noticed only after seeing a significant increase in mortality. By then, the virus had spread, leading to a 15% mortality rate and high costs for supportive therapies.",
+                    "after": "Using 'PoultryGuard AI', the system detected lethargy and huddling in one corner of the house 48 hours before visible signs of mass sickness. The farmer was alerted, immediately isolated the affected birds, and consulted a vet. The outbreak was contained to one section, and the overall mortality was kept under 4%."
+                },
+                {
+                    "client": "PT Ayam Bahagia (Free-Range Layer)",
+                    "before": "Cannibalism and feather pecking were persistent issues, causing stress and mortality, especially during the onset of lay. Workers could only intervene when they saw it happening during their rounds.",
+                    "after": "The 'FlockWatch' visual and acoustic system was trained to detect aggressive pecking and distress squawks. It sends an alert to the staff's wearables. Early intervention by staff to remove aggressive birds or adjust lighting conditions reduced mortality from cannibalism by 70%."
+                }
+            ]
+        },
+        {
+            "module_id": "PKS-03",
+            "module_group": "Nutrition & Feeding",
+            "productNames": [
+                "FeedWise Auto",
+                "NutriFlow AI",
+                "DynamicFeed"
+            ],
+            "description": {
+                "issue_to_be_solved": "Traditional time-based feeding systems are rigid. They often lead to feed wastage when chickens eat less (e.g., due to heat stress) or insufficient feeding during growth spurts, resulting in suboptimal growth and a poor Feed Conversion Ratio (FCR).",
+                "job_to_be_done": "To automatically adjust the amount and frequency of feed delivery based on the flock's actual, real-time demand, determined by their growth stage, activity levels, and the amount of feed left over from the previous cycle.",
+                "business_performance_improvement": "Improves FCR by 5-10 points (e.g., from 1.6 to 1.5). Reduces feed wastage by up to 15%. Ensures optimal nutrition for better growth rates and flock health. Reduces labor required for manual feed adjustments."
+            },
+            "technical_specification": {
+                "general_workflow": "The system determines the flock's age from the central database. Weight sensors under the main feeders or image analysis of the feeder pans detect the amount of leftover feed. Activity sensors (acoustic/visual) gauge the flock's energy expenditure. An algorithm then calculates the optimal amount of feed for the next cycle and triggers the automated feeding system.",
+                "technical_workflow": "System fetches 'days since placement' from flock database -> At scheduled check time, load cells under feeders transmit leftover feed weight to IoT gateway -> Concurrently, cameras and microphones capture activity data -> Data is sent to the cloud -> An AI model uses these inputs (age, leftover feed, activity index) to adjust the baseline feeding schedule (e.g., increase next feeding amount by 5%) -> The system sends a command to the feed line controller: 'Activate auger motor for 75 seconds'.",
+                "sensors_used": [
+                    "Load Cell / Strain Gauge (for feeder weight)",
+                    "RGB Camera (for visual feed level estimation)",
+                    "Acoustic Sensor (for activity level)",
+                    "Infrared Proximity Sensor (in feeder pan)"
+                ],
+                "actuators_used": [
+                    "Auger Motor Controller",
+                    "Solenoid Valve/Gate for feed release"
+                ],
+                "data": {
+                    "stored": "Time-stamped data of each feeding cycle: scheduled amount, actual amount delivered, leftover feed weight/level, flock activity index at time of feeding.",
+                    "transmitted": "Actuation commands to the feed line controller. Real-time feeder status and consumption data to the dashboard.",
+                    "transformed": "Raw voltage from load cell transformed into 'kilograms'. Raw image of feeder pan transformed into 'percent_full'. Raw audio amplitude transformed into 'activity_score'. These are combined to transform a 'baseline_feed_amount' into a 'dynamic_feed_amount'."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Leftover-Based Feeder",
+                        "description": "A single feeder pan is placed on a digital scale. If the weight on the scale is below a certain threshold at a specific time, it triggers the auger for a fixed duration. Purely reactive.",
+                        "sensors": [
+                            "Digital Scale with data output"
+                        ],
+                        "actuators": [
+                            "Smart Relay connected to Auger Motor"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "Growth-Stage & Leftover Feeder",
+                        "description": "An automated system that adjusts a pre-programmed feeding curve based on data from several weight sensors on the feed lines. It accounts for both the age of the birds and the amount of feed left over.",
+                        "sensors": [
+                            "Multiple Load Cells"
+                        ],
+                        "actuators": [
+                            "Auger Motor Controller"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "AI-Driven Predictive Feeding",
+                        "description": "Integrates growth stage and leftover feed data with real-time activity data from cameras and microphones, and environmental data (temperature) from the EcoController. An AI model predicts consumption for the next few hours and adjusts feeding proactively.",
+                        "sensors": [
+                            "Load Cells",
+                            "RGB Cameras",
+                            "Acoustic Sensors",
+                            "Temperature/Humidity Sensor"
+                        ],
+                        "actuators": [
+                            "Variable Speed Auger Motor Controller"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "Dashboard showing real-time feed levels in pans, daily feed consumption per flock, calculated FCR, and trends over time. Comparison of actual consumption vs. standard growth curve.",
+                "field_actuation": {
+                    "trigger": "A combination of a scheduled feeding time and a sensor reading. Example: 'Time is 2:00 PM' AND 'Average leftover feed from load cells is < 10% of last delivery'.",
+                    "actuator_and_action": "Auger Motor Controller: Activate feed line auger motor for a calculated duration (e.g., 90 seconds) to dispense the precise amount of feed needed."
+                },
+                "subscription_benefits": "Access to the feeding analytics dashboard, predictive consumption AI model updates, remote control and scheduling of feeding cycles, alerts for feed bin blockages or low levels."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Mitra Ternak Jaya",
+                    "before": "Their timer-based system ran 4 times a day. During a heatwave, chickens ate less, but the system kept dispensing feed, leading to caked, moldy, and wasted feed. Their FCR for the cycle was 1.75.",
+                    "after": "With 'FeedWise Auto', the system's load cells detected high levels of leftover feed. It automatically reduced the amount and frequency of feedings during the hottest parts of the day. Feed wastage was minimized, and the flock's FCR improved to 1.62 for that cycle, saving tons of feed."
+                },
+                {
+                    "client": "PT Sinar Harapan Farm",
+                    "before": "Farmers manually checked feed pans and adjusted the central timer, a labor-intensive and inaccurate process. They often overfed to be safe, increasing their feed cost, which is ~70% of their total cost.",
+                    "after": "Implementing 'NutriFlow AI', the system now runs autonomously. The farm manager simply monitors the dashboard. Labor was re-allocated to other critical tasks. The farm saw a consistent 8-point improvement in FCR and a 12% reduction in total feed cost over a year."
+                }
+            ]
+        },
+        {
+            "module_id": "PKS-04",
+            "module_group": "Production & Processing",
+            "productNames": [
+                "EggFlow Manager",
+                "SpectraEgg Grader",
+                "AutoHarvest Layers"
+            ],
+            "description": {
+                "issue_to_be_solved": "Manual egg collection is labor-intensive, leads to a higher percentage of cracked and dirty eggs, and makes grading/sorting a slow, subjective bottleneck. This reduces the overall marketable yield and profitability of a layer farm.",
+                "job_to_be_done": "To automate the entire post-lay process: collecting eggs from nests, transporting them, sanitizing them, and then automatically grading, sorting, and packaging them based on size, color, and quality.",
+                "business_performance_improvement": "Reduces labor costs for collection and grading by up to 80%. Increases marketable eggs by 5-10% by reducing cracks and contamination. Achieves consistent, objective grading, enhancing brand reputation and enabling premium pricing for top-grade eggs."
+            },
+            "technical_specification": {
+                "general_workflow": "Eggs roll from nests onto a conveyor belt. The conveyor transports them to a central processing station. They pass through a UV sanitizer and then an imaging station where a camera and scale collect data. An AI system grades the egg, and robotic arms or diverters sort the eggs into different cartons or trays by grade.",
+                "technical_workflow": "Egg rolls onto fabric conveyor -> Conveyor transports egg past sensor to count -> Egg passes through a tunnel with UV-C lamps for sanitization -> Egg is placed on an individual roller and passes over a load cell (for weight) and under a camera -> Camera captures image, AI checks for cracks, dirt, and shape anomalies -> Data (weight, image analysis) is used to assign a grade (e.g., AA, A, B, Cracked) -> A signal is sent to a specific packer lane -> The egg is gently directed to the correct lane for packaging.",
+                "sensors_used": [
+                    "Infrared/Laser Counter",
+                    "High-resolution Line-scan Camera",
+                    "Load Cell",
+                    "Color Sensor"
+                ],
+                "actuators_used": [
+                    "Conveyor Belt Motors",
+                    "Robotic Arm with suction cup",
+                    "Pneumatic Diverters",
+                    "UV-C Lamp Switch"
+                ],
+                "data": {
+                    "stored": "For each egg (if serialized): grade, weight, color, image. Aggregated data: hourly/daily counts, grade distribution (%, count), crack rate (%).",
+                    "transmitted": "Real-time production counts to dashboard. Control signals to sorters and packers.",
+                    "transformed": "Raw weight in grams transformed into 'Size' category (Jumbo, XL, L, M, S). Raw image data transformed into 'Defect_Score' and 'Cleanliness_Score'. Combined scores transformed into final 'Grade'."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Automated Collection Belt",
+                        "description": "A basic system that automates only the collection. A simple conveyor belt runs from the nests to a single collection table, where staff manually grade and pack the eggs. Reduces labor for walking and carrying.",
+                        "sensors": [
+                            "Infrared Counter"
+                        ],
+                        "actuators": [
+                            "Conveyor Belt Motor"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "Collection & Grading System",
+                        "description": "Automated collection plus an integrated grading line. Eggs are collected, sanitized with UV, then automatically weighed and sorted by size (weight) into different channels for manual packing.",
+                        "sensors": [
+                            "Infrared Counter",
+                            "Load Cell"
+                        ],
+                        "actuators": [
+                            "Conveyor Motors",
+                            "Pneumatic Diverters",
+                            "UV-C Lamp"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "End-to-End Egg Processing Unit",
+                        "description": "A fully automated 'egg-to-carton' system. Includes collection, UV sanitization, AI-powered visual inspection for cracks and dirt, weighing, color sorting, and robotic arms for placing eggs directly into cartons. Full integration with the farm analytics platform.",
+                        "sensors": [
+                            "Infrared Counter",
+                            "Load Cell",
+                            "High-resolution Line-scan Camera",
+                            "Color Sensor"
+                        ],
+                        "actuators": [
+                            "Conveyor Motors",
+                            "Robotic Arm",
+                            "UV-C Lamp"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "Dashboard showing real-time egg count, production rate (eggs/hour), grade distribution, crack percentage, and inventory levels per grade. Historical production reports.",
+                "field_actuation": {
+                    "trigger": "An egg on the conveyor has its weight and quality data analyzed. The system assigns a grade, e.g., 'Large, Grade A'.",
+                    "actuator_and_action": "Robotic Arm/Diverter: The system directs the arm corresponding to the 'Large, Grade A' carton to pick up the egg and place it in the carton. Or, a diverter directs the egg to the 'Large, Grade A' packing lane."
+                },
+                "subscription_benefits": "Access to the production analytics dashboard, AI grading model updates (e.g., better crack detection), remote system monitoring, and predictive maintenance alerts for the machinery."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Telur Berkah",
+                    "before": "Employed 10 people for egg collection and grading. They consistently lost about 8% of eggs to micro-cracks that were missed and broke during transport. Grading was inconsistent between staff members.",
+                    "after": "After installing 'EggFlow Manager', the collection and grading staff was reduced to 2 supervisors. The AI-powered crack detection reduced losses to under 3%. The consistent, accurate grading allowed them to secure a contract with a premium supermarket, increasing their average price per egg by 15%."
+                },
+                {
+                    "client": "Koperasi Peternak Mandiri",
+                    "before": "Members collected eggs manually, a major time sink. Dirty eggs were common, lowering their collective selling price. They had no accurate daily production data.",
+                    "after": "They invested in the 'AutoHarvest Layers' MVP tier system. The automated collection freed up hours for each member. With a centralized collection point, they added a simple washing station. This improved egg quality and provided the cooperative with accurate daily production counts for better financial planning."
+                }
+            ]
+        },
+        {
+            "module_id": "PKS-05",
+            "module_group": "Environment & Sustainability",
+            "productNames": [
+                "BioCycle Solutions",
+                "Kandang Lestari",
+                "EcoController Pro"
+            ],
+            "description": {
+                "issue_to_be_solved": "Poorly managed poultry houses suffer from high ammonia levels, temperature fluctuations, and humidity issues, which cause respiratory problems, heat stress, and wet litter, leading to disease. Manure disposal is a logistical and environmental challenge.",
+                "job_to_be_done": "To create a self-regulating, closed-loop ecosystem within the poultry house by continuously monitoring and controlling key environmental parameters (temp, humidity, ammonia, light) and efficiently managing waste by converting it into valuable byproducts (biogas, fertilizer).",
+                "business_performance_improvement": "Improves bird health and reduces respiratory diseases, lowering medication costs. Improves FCR as comfortable birds eat and grow better. Creates new revenue streams or cost savings from biogas (energy) and biofertilizer. Ensures compliance with environmental regulations."
+            },
+            "technical_specification": {
+                "general_workflow": "Sensors for temperature, humidity, and ammonia are placed throughout the house. A central controller analyzes this data and automatically adjusts fans, heaters, misters, and lights. Manure collected via an automated scraper system is fed into an anaerobic digester. The digester produces biogas for energy and nutrient-rich slurry for fertilizer. An automated system spreads fresh rice husks (sekam) as needed.",
+                "technical_workflow": "DHT22 and MQ-135 sensors continuously transmit data to an IoT gateway -> The central controller's logic compares sensor readings to the ideal parameters for the flock's age -> If ammonia > 20ppm, the controller sends a signal to increase fan speed -> If temp < 30°C, a signal is sent to the gas heater -> Manure scrapers activate on a timer, depositing waste into the digester inlet -> The automated 'tabur sekam' robot periodically measures litter moisture and dispenses fresh husks in wet areas.",
+                "sensors_used": [
+                    "DHT22 (Temperature & Humidity Sensor)",
+                    "MQ-135 (Air Quality/Ammonia Sensor)",
+                    "BH1750 (Light Intensity Sensor)",
+                    "Soil Moisture Sensor (for litter)",
+                    "Methane (CH4) Sensor (for digester)"
+                ],
+                "actuators_used": [
+                    "Exhaust Fan Controller (Variable Speed)",
+                    "Gas Heater Solenoid",
+                    "Misting System Pump/Valve",
+                    "LED Light Dimmer",
+                    "Scraper System Motor",
+                    "Anaerobic Digester Mixer/Pump",
+                    "Dispensing Robot Motor (for sekam)"
+                ],
+                "data": {
+                    "stored": "Time-series data of all environmental parameters. Actuator status logs (e.g., 'fan on/off', 'heater runtime'). Biogas production volume. Biofertilizer output volume.",
+                    "transmitted": "Real-time environmental data to dashboard. Control signals to actuators.",
+                    "transformed": "Raw sensor values (voltage, resistance) transformed into standard units (ppm for ammonia, °C for temp, % for humidity). This data stream is transformed into commands for actuators based on rule-based logic or an AI model."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Smart Climate Monitor",
+                        "description": "A sensor package (temp, humidity, ammonia) that displays real-time data on a web dashboard and sends SMS alerts if parameters go outside a manually set range. Control is still manual.",
+                        "sensors": [
+                            "DHT22",
+                            "MQ-135"
+                        ],
+                        "actuators": [
+                            "None (alerts only)"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "Automated Climate Controller",
+                        "description": "The MVP sensors plus automated control of fans, heaters, and lights based on pre-set rules and schedules. Includes automated manure scrapers.",
+                        "sensors": [
+                            "DHT22",
+                            "MQ-135",
+                            "BH1750"
+                        ],
+                        "actuators": [
+                            "Fan Controller",
+                            "Heater Solenoid",
+                            "Light Dimmer",
+                            "Scraper Motor"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "Integrated Eco-System",
+                        "description": "Full climate control integrated with waste management. Includes the anaerobic digester for biogas/biofertilizer production and an automated litter management robot ('tabur sekam'). The system uses AI to optimize the environment for energy efficiency.",
+                        "sensors": [
+                            "All sensors listed"
+                        ],
+                        "actuators": [
+                            "All actuators listed"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "A digital twin of the poultry house showing real-time temperature, humidity, ammonia, and light levels. Controls for manually overriding automated systems. Reports on energy consumption, biogas production, and environmental condition history.",
+                "field_actuation": {
+                    "trigger": "Ammonia sensor (MQ-135) reading exceeds 25 ppm.",
+                    "actuator_and_action": "Exhaust Fan Controller: Increase fan speed to 80% until the sensor reading drops below 15 ppm."
+                },
+                "subscription_benefits": "Access to the environmental control dashboard, AI optimization algorithms, remote management capabilities, and alerts for system malfunctions or extreme environmental conditions."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Kandang Sehat",
+                    "before": "Relied on workers to 'feel' if the house was too hot or smelly. This led to inconsistent conditions, frequent cases of Chronic Respiratory Disease (CRD), and high electricity bills from fans running constantly.",
+                    "after": "Implementing 'EcoController Pro', the environment is now stable 24/7. Cases of CRD dropped by 60%. Their electricity bill decreased by 25% because fans now run on variable speeds based on actual need, not just on/off."
+                },
+                {
+                    "client": "Koperasi Desa Lestari",
+                    "before": "Manure disposal was a major cost and environmental headache, attracting flies and polluting local waterways. They paid to have it hauled away.",
+                    "after": "They installed the 'BioCycle Solutions' comprehensive package. The manure is now converted into biogas, which powers heaters and generators for the cooperative, saving them IDR 15,000,000 per month in energy costs. The biofertilizer is sold to local vegetable farmers, creating a new, profitable revenue stream."
+                }
+            ]
+        },
+        {
+            "module_id": "PKS-06",
+            "module_group": "Security & Access",
+            "productNames": [
+                "BioGuard Access",
+                "SentryShield",
+                "Kandang Fortress"
+            ],
+            "description": {
+                "issue_to_be_solved": "Unauthorized entry of people, vehicles, or animals into the farm area is a primary vector for disease transmission (like Avian Influenza). Tracking human movement within the farm to ensure protocols are followed is difficult to enforce manually.",
+                "job_to_be_done": "To secure the farm perimeter and critical entry points, control and log all human traffic, and detect and alert for any unauthorized movement, thereby enforcing strict biosecurity protocols automatically.",
+                "business_performance_improvement": "Drastically reduces the risk of catastrophic disease outbreaks. Provides a complete audit trail for certification and compliance purposes. Prevents theft of feed, equipment, and livestock. Improves overall operational discipline."
+            },
+            "technical_specification": {
+                "general_workflow": "The farm perimeter and building entrances are monitored by smart cameras with object detection. All authorized personnel are issued RFID cards/tags. Gates and doors are equipped with electronic locks. To enter, a person must scan their card. The system logs the entry, and cameras monitor for any tailgating or unauthorized presence, triggering an alarm if detected.",
+                "technical_workflow": "A vehicle approaches the main gate -> A LPR (License Plate Recognition) camera captures the plate; simultaneously, a motion sensor detects presence -> If the plate is on the pre-approved list, the system opens the gate actuator -> A staff member approaches a house door and swipes their RFID card -> The RFID reader sends the card ID to the central controller -> Controller verifies ID and checks permissions (e.g., 'is this person allowed in House 3?') -> If authorized, the controller sends a signal to the magnetic lock to disengage -> The entry is logged with timestamp, location, and person's ID.",
+                "sensors_used": [
+                    "Smart Camera with AI Object Detection (person, vehicle, animal)",
+                    "License Plate Recognition (LPR) Camera",
+                    "RFID Reader",
+                    "Door Contact Sensor (magnetic)",
+                    "PIR Motion Sensor"
+                ],
+                "actuators_used": [
+                    "Magnetic Door Lock / Electric Strike",
+                    "Automated Gate Motor",
+                    "Alarm Siren / Strobe Light"
+                ],
+                "data": {
+                    "stored": "Access logs (personnel ID, location, timestamp). Video clips of security alerts (e.g., 'unauthorized person detected'). A history of all vehicle entries/exits with license plates and images.",
+                    "transmitted": "Real-time security alerts to management's phones. Gate/door open/close commands.",
+                    "transformed": "Raw video feed is transformed into security events ('person_detected', 'vehicle_detected'). Raw RFID card number is transformed into employee name and access level."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Smart Detection Camera",
+                        "description": "A single smart Wi-Fi camera with person detection capabilities is placed at the main entrance. It sends a push notification to the owner's phone when a person is detected. No access control, just detection and alerting.",
+                        "sensors": [
+                            "Smart Wi-Fi Camera"
+                        ],
+                        "actuators": [
+                            "None"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "RFID Access Control",
+                        "description": "RFID readers and electronic locks are installed on all critical doors (main gate, each house). Staff are given RFID cards. The system grants or denies access and logs all events. Includes basic perimeter cameras.",
+                        "sensors": [
+                            "RFID Reader",
+                            "Door Contact Sensor",
+                            "Basic CCTV Camera"
+                        ],
+                        "actuators": [
+                            "Magnetic Door Lock",
+                            "Gate Motor"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "Integrated Biosecurity Platform",
+                        "description": "Full RFID access control combined with a network of AI-powered cameras that perform object detection, LPR, and can detect 'tailgating' (unauthorized person following an authorized one). The system can enforce protocols like 'must pass through disinfection chamber before door to House 1 will open'.",
+                        "sensors": [
+                            "Smart AI Camera",
+                            "LPR Camera",
+                            "RFID Reader",
+                            "Door Contact Sensor"
+                        ],
+                        "actuators": [
+                            "Magnetic Lock",
+                            "Gate Motor",
+                            "Alarm Siren",
+                            "Integration with disinfection systems"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "A security dashboard with a live map showing security status. An event log of all access events and security alerts. A personnel tracking page showing who is currently on-site and in which zones. Easy management of access permissions.",
+                "field_actuation": {
+                    "trigger": "A camera detects a person near the perimeter fence at 2:00 AM.",
+                    "actuator_and_action": "Alarm Siren/Strobe Light: The system activates a loud siren and flashing light in that zone to deter the intruder and alert security personnel."
+                },
+                "subscription_benefits": "24/7 access to the security platform and logs, cloud storage of security footage, regular updates to the AI detection models, immediate alerts for security breaches."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Bibit Unggul (Breeding Farm)",
+                    "before": "A simple padlock was on the main gate. They suffered a devastating Avian Influenza outbreak traced back to a feed delivery truck that had visited an infected farm earlier that day. They had no way to control or track vehicle access.",
+                    "after": "With 'BioGuard Access', all vehicles must be registered. The LPR camera logs every entry and exit. The system enforces a 'wash-in/wash-out' protocol for all vehicles before they can enter the core farm area, significantly reducing their biosecurity risk."
+                },
+                {
+                    "client": "PT Ternak Modern",
+                    "before": "Despite having protocols, it was hard to ensure employees showered and changed before entering different chicken houses. This led to cross-contamination between a flock with mild CRD and a healthy flock.",
+                    "after": "They installed 'Kandang Fortress'. Now, an employee's RFID card will not unlock the door to a house unless they have first badged into the designated shower/changing facility for that zone. This enforces the protocol automatically, and the access logs provide proof of compliance for audits."
+                }
+            ]
+        },
+        {
+            "module_id": "PKS-07",
+            "module_group": "Data & Finance",
+            "productNames": [
+                "FarmPulse Analytics",
+                "PoultryProfit Maximizer",
+                "AgriData Intelligence"
+            ],
+            "description": {
+                "issue_to_be_solved": "Poultry farmers, especially traditional players, operate on thin margins and make critical financial decisions (when to buy feed, when to sell chickens) based on gut feeling or incomplete data. They lack a unified view of their operational data and its financial implications.",
+                "job_to_be_done": "To integrate all operational data (from other modules) with financial data (market prices, input costs) into a single, powerful analytics platform. This platform provides historical analysis, real-time monitoring of key performance indicators (KPIs), and predictive insights to support high-stakes business decisions.",
+                "business_performance_improvement": "Improves overall profitability by 5-15% by optimizing the timing of sales and purchases. Provides a clear, data-driven understanding of the cost of production. Enables better risk management through price projections and hedging support. Unlocks access to better financing through transparent, verifiable operational data."
+            },
+            "technical_specification": {
+                "general_workflow": "The platform's data warehouse pulls in data from all other 'Pandang Kandang' modules (e.g., FCR from FeedWise, mortality from PoultryGuard, egg production from EggFlow). It also ingests external data via APIs (e.g., market prices for chicken and feed). This aggregated data is processed and presented in a series of dashboards covering operations, finance, and forecasting.",
+                "technical_workflow": "A scheduled ETL (Extract, Transform, Load) job runs every hour -> It queries the databases of other modules (Health, Feeding, Egg, etc.) for new data -> It calls external APIs for current spot prices of chicken, DOC, and feed -> All data is loaded into a central data warehouse (e.g., BigQuery) -> Analytical models run on this data to calculate KPIs like 'cost per kg of live weight' or 'egg production profitability' -> Forecasting models (e.g., ARIMA) use historical price data to project future prices -> These results are cached and served to the user's dashboard when they log in.",
+                "sensors_used": [
+                    "None (This is a data aggregation and analytics platform)"
+                ],
+                "actuators_used": [
+                    "None (This module provides insights and recommendations, not physical actuation)"
+                ],
+                "data": {
+                    "stored": "A comprehensive data warehouse containing all historical operational data from every module, plus historical market price data for inputs (feed, DOC) and outputs (chicken, eggs).",
+                    "transmitted": "Dashboard data (KPIs, graphs, reports) to the user's web browser or mobile app. Alert notifications for financial opportunities or risks (e.g., 'Feed prices projected to increase 10% next month').",
+                    "transformed": "Siloed operational data (e.g., feed consumed in kg, total weight gain in kg) is transformed into financial KPIs (e.g., Feed Conversion Ratio). Historical price data is transformed into price volatility indexes and future price projection cones."
+                },
+                "tiers": {
+                    "tier_1_mvp": {
+                        "name": "Digital Flock Record",
+                        "description": "A simple web/mobile app where farmers can manually input key data: DOC purchase, daily mortality, weekly weight, feed consumption, and final harvest data. The app calculates and displays FCR, mortality rate, and basic profit/loss for the cycle.",
+                        "sensors": [
+                            "None"
+                        ],
+                        "actuators": [
+                            "None"
+                        ]
+                    },
+                    "tier_2_general": {
+                        "name": "Automated Performance Dashboard",
+                        "description": "Automatically pulls data from other installed 'Pandang Kandang' modules (e.g., Feeding, Health). It provides real-time dashboards for FCR, mortality, growth rate, and egg production. Includes tracking of input costs and revenue to show live profitability.",
+                        "sensors": [
+                            "None"
+                        ],
+                        "actuators": [
+                            "None"
+                        ]
+                    },
+                    "tier_3_comprehensive": {
+                        "name": "Predictive Financial Command Center",
+                        "description": "The full platform. Integrates all internal operational data with external market data feeds. Uses AI and machine learning to provide price projections, 'what-if' scenario analysis (e.g., 'what is the profit impact of harvesting 3 days later?'), and proactive recommendations for hedging and sales timing.",
+                        "sensors": [
+                            "None"
+                        ],
+                        "actuators": [
+                            "None"
+                        ]
+                    }
+                }
+            },
+            "deliverables": {
+                "dashboard": "A comprehensive business intelligence dashboard with multiple views: \n- **Operations:** FCR, mortality, growth curve, egg production rate.\n- **Financial:** Real-time cost of production per kg/egg, profit margin, ROI per flock.\n- **Market:** Live prices for chicken and feed, historical price charts, and future price projections.",
+                "field_actuation": {
+                    "trigger": "N/A - Information and decision support only.",
+                    "actuator_and_action": "N/A"
+                },
+                "subscription_benefits": "Continuous access to the unified analytics platform. Regular updates to forecasting models. Access to real-time market data feeds. Customizable reports for banking and insurance purposes."
+            },
+            "use_cases": [
+                {
+                    "client": "PT Jaya Farm (Large Integrator)",
+                    "before": "Had separate departments for operations and finance. Operations focused on FCR, Finance on market prices. Decisions were slow and not fully integrated. They missed an opportunity to lock in low feed prices and sold their flock a week before a major price spike.",
+                    "after": "Using 'FarmPulse Analytics', both teams now look at the same unified dashboard. The system's projection model forecasted the price spike. Alerted by the system, they chose to delay their harvest by 5 days, resulting in an additional IDR 250,000,000 in revenue for that cycle."
+                },
+                {
+                    "client": "Ayam Petelur Sentosa",
+                    "before": "The owner knew his total costs at the end of the month but didn't know his exact cost to produce one egg. He priced his eggs based on what his neighbor was selling for.",
+                    "after": "The 'PoultryProfit Maximizer' platform automatically calculates his real-time cost per egg by integrating feed consumption, labor, electricity, and other data. He discovered his brown eggs were more profitable than his white eggs. He adjusted his flock composition and pricing strategy, increasing his overall farm profit margin by 12%."
+                }
+            ]
+        }
+    ],
+    "technologyGlossary": [
+        {
+            "name": "High-Resolution RGB Camera",
+            "description": {
+                "what_it_is": "A digital camera that captures high-detail images and video in the visible light spectrum (Red, Green, Blue).",
+                "how_it_works": "A lens focuses light onto a CMOS or CCD sensor, which converts photons into electrical signals, creating a digital image. In industrial settings, they are often connected via Ethernet (GigE) for high-speed data transfer."
+            },
+            "used_in_modules": [
+                "ChickGrade Pro (DOC Selection)",
+                "PoultryGuard AI (Health & Behavior)",
+                "FeedWise Auto (Dynamic Feeding)",
+                "BioGuard Access (Bio Security)"
+            ]
+        },
+        {
+            "name": "Thermal Imaging Camera",
+            "description": {
+                "what_it_is": "A camera that creates an image using infrared radiation (heat) rather than visible light. Also known as a thermographic camera or FLIR (Forward-Looking Infrared).",
+                "how_it_works": "It uses a special lens to focus infrared light emitted by all objects onto a detector known as a microbolometer array. Each detector pixel reacts to the infrared energy, and the camera translates this into a digital temperature map called a thermogram."
+            },
+            "used_in_modules": [
+                "ChickGrade Pro (Comprehensive Tier)",
+                "PoultryGuard AI (Health & Behavior)"
+            ]
+        },
+        {
+            "name": "Load Cell / Strain Gauge",
+            "description": {
+                "what_it_is": "A sensor (a transducer) that converts a force such as tension, compression, pressure, or torque into an electrical signal that can be measured and standardized.",
+                "how_it_works": "It typically consists of a metal structure (spring element) with strain gauges bonded to it. When force is applied, the structure deforms slightly, and the resistance of the strain gauges changes. This change in resistance is measured and converted to a weight or force value."
+            },
+            "used_in_modules": [
+                "ChickGrade Pro (DOC Selection)",
+                "FeedWise Auto (Dynamic Feeding)",
+                "EggFlow Manager (Egg Management)"
+            ]
+        },
+        {
+            "name": "Acoustic Sensor / Microphone Array",
+            "description": {
+                "what_it_is": "A device that converts sound waves into electrical energy (an audio signal). An array is a group of microphones used to identify the location of a sound source and filter out background noise.",
+                "how_it_works": "A diaphragm vibrates in response to sound waves. This movement is converted into an electrical signal by various methods (e.g., condenser, dynamic). The signal can then be digitized and analyzed by software."
+            },
+            "used_in_modules": [
+                "PoultryGuard AI (Health & Behavior)",
+                "FeedWise Auto (Dynamic Feeding)"
+            ]
+        },
+        {
+            "name": "DHT22 / SHT Series Sensor",
+            "description": {
+                "what_it_is": "A low-cost digital sensor that provides calibrated temperature and humidity readings.",
+                "how_it_works": "It contains a capacitive humidity sensor and a thermistor (a resistor whose resistance changes significantly with temperature). An internal chip performs the analog-to-digital conversion and outputs a digital signal with the temperature and humidity data."
+            },
+            "used_in_modules": [
+                "EcoController Pro (Environment Management)"
+            ]
+        },
+        {
+            "name": "MQ-135 Gas Sensor",
+            "description": {
+                "what_it_is": "A semiconductor sensor designed to detect a wide range of gases, commonly used for air quality monitoring, including ammonia (NH3), which is critical in poultry farming.",
+                "how_it_works": "The sensor has a small heating element and a chemoresistive layer. When gases adsorb onto the sensor's surface, the resistance of the layer changes. This change is measured as an analog voltage, which can be correlated to the concentration of the gas in parts per million (ppm)."
+            },
+            "used_in_modules": [
+                "EcoController Pro (Environment Management)"
+            ]
+        },
+        {
+            "name": "RFID Reader",
+            "description": {
+                "what_it_is": "Radio-Frequency Identification reader. A device used to gather information from an RFID tag or card, which is used to track individual objects or people.",
+                "how_it_works": "The reader transmits a radio signal. When an RFID tag passes by, the tag is powered by the signal and reflects back a signal containing its unique identification number. The reader receives this reflected signal and sends the ID to a control system."
+            },
+            "used_in_modules": [
+                "BioGuard Access (Bio Security)"
+            ]
+        },
+        {
+            "name": "Computer Vision AI Model",
+            "description": {
+                "what_it_is": "A type of artificial intelligence where a machine is trained to interpret and understand information from image or video data.",
+                "how_it_works": "It uses deep learning models, typically Convolutional Neural Networks (CNNs), trained on large datasets of labeled images. The model learns to identify objects, patterns, and features. For example, it can be trained on thousands of images of chickens to learn to identify behaviors like fighting, lethargy, or drinking."
+            },
+            "used_in_modules": [
+                "ChickGrade Pro (DOC Selection)",
+                "PoultryGuard AI (Health & Behavior)",
+                "BioGuard Access (Bio Security)",
+                "EggFlow Manager (Comprehensive Tier)"
+            ]
+        },
+        {
+            "name": "IoT Gateway",
+            "description": {
+                "what_it_is": "A physical device or software program that serves as the connection point between the cloud and controllers, sensors, and intelligent devices in the field.",
+                "how_it_works": "It aggregates sensor data, translates between different sensor protocols (like Modbus, MQTT, Zigbee), and can pre-process data locally before sending it to the cloud. This reduces latency and the amount of data that needs to be transmitted."
+            },
+            "used_in_modules": [
+                "PoultryGuard AI (Health & Behavior)",
+                "FeedWise Auto (Dynamic Feeding)",
+                "EcoController Pro (Environment Management)"
+            ]
+        },
+        {
+            "name": "Pneumatic Actuator",
+            "description": {
+                "what_it_is": "A device that converts energy from compressed air into linear or rotary motion.",
+                "how_it_works": "A control system sends an electrical signal to a solenoid valve. The valve opens, allowing compressed air to flow into a cylinder, which pushes a piston to perform a mechanical action (e.g., opening a gate, diverting an object)."
+            },
+            "used_in_modules": [
+                "ChickGrade Pro (DOC Selection)",
+                "EggFlow Manager (Egg Management)"
+            ]
+        }
+    ],
+    "competitors": [
+        {
+            "name": "Chickin Indonesia",
+            "site": "https://chickin.id/",
+            "description": "Chickin Indonesia aims to optimize poultry farming results for broiler chickens, process them, and provide a distribution chain for food equity across Indonesia. They provide integrated solutions from farm supplies to partnerships and technology support.",
+            "provided_product_services": [
+                {
+                    "name": "Chickin Smart Farm",
+                    "description": "Integrated solution for managing chicken farms, covering sapronak (farm supplies), partnerships, and technology support.",
+                    "tech_used": "AI and cloud-based IoT solutions, mobile application, dashboard view, remote cage management, temperature and humidity monitoring, periodical reports."
+                },
+                {
+                    "name": "Chickin Fresh",
+                    "description": "Solution for processed chicken supply, handled with standardized processes and distributed to various industries.",
+                    "tech_used": "Not explicitly stated, likely involves food processing and logistics technology."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Oct 30, 2024",
+                "amount": "$20M",
+                "VC_acquirer_name": [
+                    "Granite Asia",
+                    "500 Global",
+                    "East Ventures",
+                    "Integra Partners",
+                    "Asian Development Bank"
+                ]
+            }
+        },
+        {
+            "name": "BroilerX",
+            "site": "https://broilerx.com/en",
+            "description": "BroilerX provides a digital platform and solutions to help broiler chicken farmers record daily coop data, monitor production performance, and manage operations more efficiently.",
+            "provided_product_services": [
+                {
+                    "name": "BroilerX App",
+                    "description": "A tool for farmers to digitally record daily coop data, monitor production performance (Feed Intake, FCR, Depletion, Harvest Data, IP), and broiler chicken growth in real-time, with operational ease and cost management.",
+                    "tech_used": "Mobile application, real-time data monitoring."
+                },
+                {
+                    "name": "Farming Funding",
+                    "description": "Financial support for farming operations.",
+                    "tech_used": "Not explicitly stated."
+                },
+                {
+                    "name": "Farm Upgrade Funding",
+                    "description": "Financial support for upgrading farm facilities.",
+                    "tech_used": "Not explicitly stated."
+                },
+                {
+                    "name": "ERP",
+                    "description": "Enterprise Resource Planning solutions for farm management.",
+                    "tech_used": "Not explicitly stated."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "May 20, 2024",
+                "amount": "Unknown (Accelerator/Incubator)",
+                "VC_acquirer_name": [
+                    "Saison Capital",
+                    "Plug and Play Tech Center",
+                    "Insignia Ventures Partners",
+                    "Kopital Ventures",
+                    "Orvel Ventures"
+                ]
+            }
+        },
+        {
+            "name": "Layerfarm",
+            "site": "https://layerfarm.com/",
+            "description": "Information not readily available on the public website or through search results. The site seems to focus on general poultry farming, not specifically on an agritech startup model with distinct products/services or funding information.",
+            "provided_product_services": [],
+            "valuation": "Unknown",
+            "latest_funding": {}
+        },
+        {
+            "name": "Mertani (Smart Poultry)",
+            "site": "https://www.mertani.co.id/id/smart-poultry",
+            "description": "Information not readily available on the public website or through search results. The specific 'Smart Poultry' section of Mertani's website did not provide detailed information about their specific agritech products or startup status/funding.",
+            "provided_product_services": [],
+            "valuation": "Unknown",
+            "latest_funding": {}
+        },
+        {
+            "name": "Pitik Digital",
+            "site": "https://www.instagram.com/pitikdigital/",
+            "description": "Information not readily available through the Instagram page or general search results to determine specific agritech products/services, funding, or valuation. The Instagram page primarily showcases farm activities and general poultry farming.",
+            "provided_product_services": [],
+            "valuation": "Unknown",
+            "latest_funding": {}
+        },
+        {
+            "name": "Dycodex (SMARTernak)",
+            "site": "https://www.dycodex.com/smarternak",
+            "description": "SMARTernak by Dycodex provides IoT-based cattle farming solutions, helping farmers manage cattle by tracking activity and health with AI-assisted recommendations.",
+            "provided_product_services": [
+                {
+                    "name": "SMARTernak IoT Device",
+                    "description": "IoT-based device to track cattle activity and health, with AI-assisted recommendations. Features include anti-theft alarm, real-time sensors, and GPS modules. Uses LPWA connectivity (LoRa/NB-IoT) for wide range and low power consumption. Monitors and alerts health issues, predicts cattle behavior, checks approximate weight, and monitors environmental conditions.",
+                    "tech_used": "IoT, AI, LPWA (LoRa/NB-IoT), GPS, Cloud computing, Android/iOS applications."
+                }
+            ],
+            "valuation": "Unknown (Acquired by eFishery)",
+            "latest_funding": {
+                "date": "Acquired, March 25, 2024",
+                "amount": "N/A (Acquisition)",
+                "VC_acquirer_name": [
+                    "eFishery"
+                ]
+            }
+        },
+        {
+            "name": "Aria Indonesia",
+            "site": "https://aria-indonesia.id/",
+            "description": "Aria Indonesia focuses on promoting careers in agriculture, decent work, gender equality, reducing water consumption, reducing climate pollution, and providing means for precision and efficiency in agriculture.",
+            "provided_product_services": [
+                {
+                    "name": "Precision Agriculture Solutions",
+                    "description": "Leverages technology, including drones, for various agricultural applications to improve precision and efficiency.",
+                    "tech_used": "Drones, IoT, coding, unspecified packaging solutions."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Aug 29, 2022",
+                "amount": "$5M",
+                "VC_acquirer_name": [
+                    "East Ventures",
+                    "Gan Konsulindo",
+                    "GK Plug and Play"
+                ]
+            }
+        },
+        {
+            "name": "Habibi Garden",
+            "site": "https://www.habibigarden.com/",
+            "description": "Habibi Garden (PT. Habibi Digital Nusantara) is an agritech company that enables modern farming using IoT technology.",
+            "provided_product_services": [
+                {
+                    "name": "HabibiGrow",
+                    "description": "Specific product for growing plants (details not fully specified).",
+                    "tech_used": "IoT."
+                },
+                {
+                    "name": "HabibiCooling",
+                    "description": "Specific product for cooling systems (details not fully specified).",
+                    "tech_used": "IoT."
+                },
+                {
+                    "name": "HabibiClimate Pro",
+                    "description": "Professional climate control system (details not fully specified).",
+                    "tech_used": "IoT."
+                },
+                {
+                    "name": "HabibiClimate Station",
+                    "description": "Climate monitoring station (details not fully specified).",
+                    "tech_used": "IoT."
+                },
+                {
+                    "name": "HabibiDripTape",
+                    "description": "Drip irrigation tape (details not fully specified).",
+                    "tech_used": "Not explicitly stated as IoT, but likely integrated."
+                },
+                {
+                    "name": "HabibiCam",
+                    "description": "Camera for monitoring (details not fully specified).",
+                    "tech_used": "IoT."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Dec 31, 2018",
+                "amount": "$3.25M",
+                "VC_acquirer_name": [
+                    "Indigo Telkom",
+                    "Artesian Venture Partners",
+                    "Brinc (Hong Kong)"
+                ]
+            }
+        },
+        {
+            "name": "Elevarm",
+            "site": "https://play.google.com/store/apps/details?id=com.elevarm.app",
+            "description": "Elevarm is an Indonesian agritech specializing in horticulture production, enhancing agri-input access to boost farmers' productivity and growth. They run a data-driven farming model and provide an integrated ecosystem of technology, financing, market infrastructure, and advisory services.",
+            "provided_product_services": [
+                {
+                    "name": "Farmer Partnership Model",
+                    "description": "Farmers commit to selling their entire harvest to Elevarm at mutually agreed fair prices, reducing market risk.",
+                    "tech_used": "Data-driven approach, market infrastructure."
+                },
+                {
+                    "name": "Tech-driven Cultivation Support",
+                    "description": "Provides high-quality inputs (seeds, organic fertilizers, biostimulants), soil testing, monitoring dashboards, IoT-based field devices, and a dedicated farmer app for real-time insights and personalized guidance.",
+                    "tech_used": "IoT, AI, mobile application, soil testing technology."
+                },
+                {
+                    "name": "Affordable Loans",
+                    "description": "Provides loans tied to harvest repayment, covering working capital needs.",
+                    "tech_used": "Financial technology."
+                },
+                {
+                    "name": "Sustainable Practices Promotion",
+                    "description": "Promotes Good Agricultural Practices (GAP), polyculture, organic fertilization, and reduced chemical and water usage. Offers vermicompost and NextBio products for soil health.",
+                    "tech_used": "Biotechnology (vermicompost, NextBio), data-driven approach for impact measurement."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Mar 13, 2025",
+                "amount": "$4.25M",
+                "VC_acquirer_name": [
+                    "Intudo Ventures",
+                    "Insignia Ventures Partners",
+                    "500 Global",
+                    "Amartha",
+                    "Rabobank",
+                    "Scala"
+                ]
+            }
+        },
+        {
+            "name": "Agreeculture",
+            "site": "https://agreeculture.id/",
+            "description": "General information about 'Agreeculture' as a specific startup was not found on the provided URL or in general search results. The search results primarily refer to agriculture as a broad industry.",
+            "provided_product_services": [],
+            "valuation": "Unknown",
+            "latest_funding": {}
+        },
+        {
+            "name": "Delosaqua",
+            "site": "https://delosaqua.com/",
+            "description": "Delos provides professional services for aquaculture farms in its ecosystem, partnering with farm owners and stakeholders, with a focus on sustainable shrimp production.",
+            "provided_product_services": [
+                {
+                    "name": "Farm Services",
+                    "description": "Professional services for farms including technology implementation, management practices, scientific approach, and supply chain integration.",
+                    "tech_used": "AI, mobile application, recirculating aquaculture systems (RAS)."
+                },
+                {
+                    "name": "Certified Aquaculture",
+                    "description": "Focus on achieving certifications like Best Aquaculture Practices, certifying every step of the production chain.",
+                    "tech_used": "Not explicitly stated."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Sep 07, 2023",
+                "amount": "$5.75M",
+                "VC_acquirer_name": [
+                    "Monk's Hill Ventures",
+                    "Alpha JWC Ventures",
+                    "MDI Ventures",
+                    "Alto Partners"
+                ]
+            }
+        },
+        {
+            "name": "Banyu Farm",
+            "site": "https://www.banyu.farm/",
+            "description": "Banyu is an integrated seaweed company leveraging technology to revolutionize Indonesia's seaweed sector, empowering smallholder farmers and driving sustainability through innovation.",
+            "provided_product_services": [
+                {
+                    "name": "High-quality Spore Seedlings",
+                    "description": "Proprietary seedling production shown to boost yields by up to 20 percent.",
+                    "tech_used": "Biotechnology, advanced farming techniques."
+                },
+                {
+                    "name": "Advanced Farming Techniques",
+                    "description": "Training and implementation of modern cultivation methods.",
+                    "tech_used": "Technology integration."
+                },
+                {
+                    "name": "Transparent Market Access",
+                    "description": "Connecting farmers to international and local buyers to ensure stable incomes.",
+                    "tech_used": "Marketplace/platform."
+                },
+                {
+                    "name": "Seaweed R&D",
+                    "description": "Collaboration with universities and research institutions to explore downstream applications of seaweed, such as bioplastics, food additives, and cosmetics.",
+                    "tech_used": "Research and development, biotechnology."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Jan 22, 2025",
+                "amount": "$1.25M",
+                "VC_acquirer_name": [
+                    "Intudo Ventures"
+                ]
+            }
+        },
+        {
+            "name": "Crustea",
+            "site": "https://www.crustea.id/",
+            "description": "Crustea is an Indonesian aquaculture enterprise specializing in sustainable shrimp farming using eco-friendly and community-based practices. They empower coastal communities and aim to deliver high-quality, traceable seafood.",
+            "provided_product_services": [
+                {
+                    "name": "Eco-Tech Products",
+                    "description": "Sells and leases solar-powered aerators and smart monitoring systems to shrimp farmers.",
+                    "tech_used": "Solar power, smart monitoring systems, IoT."
+                },
+                {
+                    "name": "Digital Services (PaaS/SaaS)",
+                    "description": "Offers aquaculture tech solutions via Platform-as-a-Service (PaaS) and Software-as-a-Service (SaaS).",
+                    "tech_used": "PaaS, SaaS."
+                },
+                {
+                    "name": "Farmer Engagement & Training",
+                    "description": "Markets directly to farmers through online platforms, outreach, and industry events, providing training and resources.",
+                    "tech_used": "Online platforms, community engagement."
+                }
+            ],
+            "valuation": "Unknown",
+            "latest_funding": {
+                "date": "Seed round (date not specified, seeking US$1,000,000)",
+                "amount": "Unknown (Seed round)",
+                "VC_acquirer_name": []
+            }
+        },
+        {
+            "name": "Jala Tech",
+            "site": "https://jala.tech/id",
+            "description": "Information not readily available on the public website or through search results to determine specific agritech products/services, funding, or valuation. The site seems to be under maintenance or redirects to a general page.",
+            "provided_product_services": [],
+            "valuation": "Unknown",
+            "latest_funding": {}
+        }
+    ]
+}

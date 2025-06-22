@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandang Kandang Solutions - AI for Modern Poultry Farming</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐔</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #1a202c;
+        }
+
+        .main-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+        }
+
+        .snap-section {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./main-photo.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .main-red {
+            color: #E91E21;
+        }
+
+        .main-red-bg {
+            background-color: #E91E21;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #4a5568;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .bg-primary-color-t-10 {
+            background-color: rgba(233, 30, 33, 0.03);
+        }
+
+        .tab-button {
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: #E91E21;
+            border-bottom-color: #E91E21;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="./logo.png" alt="Pandang Kandang Logo" class="h-10 w-10 rounded-full">
+                    <h1 class="ml-3 text-xl font-bold tracking-tighter">Pandang Kandang</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#hero" class="text-gray-600 hover:main-red transition">Home</a>
+                    <a href="#solutions" class="text-gray-600 hover:main-red transition">Solutions</a>
+                    <a href="#team" class="text-gray-600 hover:main-red transition">Team</a>
+                    <a href="#competitors" class="text-gray-600 hover:main-red transition">Competitors</a>
+                    <a href="#contact"
+                        class="main-red-bg text-white px-4 py-2 rounded-full font-semibold hover:opacity-90 transition">Contact
+                        Us</a>
+                </nav>
+                <button id="mobile-menu-button"
+                    class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 bg-white rounded-lg shadow-lg p-4">
+                <a href="#hero" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Home</a>
+                <a href="#solutions"
+                    class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Solutions</a>
+                <a href="#team" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Team</a>
+                <a href="#competitors"
+                    class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Competitors</a>
+                <a href="#contact"
+                    class="block mt-2 py-2 px-4 text-sm main-red-bg text-white hover:opacity-90 rounded-full text-center">Contact
+                    Us</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section id="hero" class="snap-section hero-bg pt-24 md:pt-32 text-white">
+            <div class="container mx-auto px-6 text-center flex flex-col justify-center items-center h-full">
+                <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter leading-tight">The Future of Poultry
+                    Farming, <br> <span class="main-red">Automated & Optimized.</span></h2>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-200">We leverage AI and IoT to bring data-driven
+                    precision to every aspect of your poultry operation, from chick grading to waste management. Boost
+                    your productivity, profitability, and sustainability.</p>
+                <div class="mt-8">
+                    <a href="#solutions"
+                        class="main-red-bg text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-transform transform hover:scale-105 inline-block">Explore
+                        Our Solutions</a>
+                </div>
+                <div class="mt-12 text-gray-300 animate-bounce">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section Container -->
+        <div id="solutions">
+            <!-- Solutions will be dynamically inserted here as full-page sections -->
+        </div>
+
+        <!-- Team Section -->
+        <section id="team" class="snap-section py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Our Leadership</h2>
+                <p class="section-subtitle">Driven by a passion for technology and agriculture, our team is dedicated to
+                    revolutionizing the poultry industry.</p>
+                <div id="team-grid" class="flex justify-center gap-12 flex-wrap">
+                    <!-- Team members will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitors Section -->
+        <section id="competitors" class="snap-section py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Industry Landscape</h2>
+                <p class="section-subtitle">We thrive in a dynamic ecosystem of innovators. Here's a look at other key
+                    players shaping the future of AgTech in the region.</p>
+                <div id="competitors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Competitors will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact / CTA Section -->
+        <section id="contact" class="snap-section bg-primary-color-t-10">
+            <div class="container mx-auto px-6 py-20 flex flex-col justify-center items-center h-full">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to Transform Your Farm?</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Let's talk about how Pandang Kandang can
+                        help you achieve new levels of efficiency and profitability. Get in touch for a personalized
+                        demo.</p>
+                    <div class="mt-8">
+                        <a href="http://wa.me/62895800353053?text=Saya%20tertarik%20untuk%20mendalami%20produk%20Pandang%20Kandang%20lebih%20lanjut"
+                            target="_blank" rel="noopener noreferrer"
+                            class="main-red-bg text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-transform transform hover:scale-105 inline-block">Request
+                            a Demo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8">
+            <div class="container mx-auto px-6 text-center">
+                <p class="font-semibold text-lg">Pandang Kandang Solutions</p>
+                <p class="mt-2 text-gray-400">Revolutionizing Poultry Farming with AI.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">Twitter</a>
+                    <a href="#" class="text-gray-400 hover:text-white">LinkedIn</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Facebook</a>
+                </div>
+                <div class="mt-8 border-t border-gray-700 pt-6 text-gray-500 text-sm">
+                    <p>&copy; 2024 Pandang Kandang Solutions. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // --- Fetch and Render Data ---
+            fetch('./company.json')
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    renderSolutions(data.pandangKandangSolutions);
+                    renderTeam({ CEO: 'Hafizh Abdan Syakura', CTO: 'Naufal Makarim' });
+                    renderCompetitors(data.competitors);
+                })
+                .catch(error => {
+                    console.error("Error fetching or parsing data:", error);
+                    document.getElementById('solutions').innerHTML = `<div class="snap-section flex items-center justify-center"><p class="text-center text-red-500 col-span-full">Could not load solutions data.</p></div>`;
+                });
+
+            // --- Render Functions ---
+            function renderSolutions(solutions) {
+                const container = document.getElementById('solutions');
+                if (!solutions || !container) return;
+
+                container.innerHTML = solutions.map((solution, index) => `
+                    <section id="solution-${solution.module_id}" class="snap-section w-full py-20 px-6 md:px-12 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                        <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
+                            <!-- Left Column: Description -->
+                            <div class="flex flex-col justify-center">
+                                <img src="./${solution.module_id}.png" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E91E21/FFFFFF?text=${solution.productNames[0].replace(' ', '+')}';" alt="${solution.productNames[0]}" class="rounded-lg shadow-lg mb-8 w-full aspect-video object-cover">
+                                <span class="font-semibold main-red">${solution.module_group}</span>
+                                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mt-1">${solution.productNames[0]}</h2>
+                                <p class="text-gray-500 font-medium mb-4">${solution.productNames.slice(1).join(' / ')}</p>
+                                <p class="mt-4 text-gray-700"><strong>Problem:</strong> ${solution.description.issue_to_be_solved}</p>
+                                <p class="mt-2 text-gray-700"><strong>Solution:</strong> ${solution.description.job_to_be_done}</p>
+                                <div class="mt-6 p-4 bg-primary-color-t-10 rounded-lg border-l-4 border-red-200">
+                                     <p class="text-md font-semibold text-green-800">
+                                         <span class="font-extrabold">🚀 Business Impact:</span> ${solution.description.business_performance_improvement}
+                                     </p>
+                                </div>
+                            </div>
+                            <!-- Right Column: Details Tabs -->
+                            <div class="card p-4 md:p-6 h-full max-h-[80vh] flex flex-col">
+                                <div class="flex border-b border-gray-200 mb-4 flex-shrink-0">
+                                    <button class="tab-button active" data-tab="tech-spec-${index}">Tech Specs</button>
+                                    <button class="tab-button" data-tab="deliverables-${index}">Deliverables</button>
+                                    <button class="tab-button" data-tab="use-cases-${index}">Use Cases</button>
+                                </div>
+                                <div class="overflow-y-auto flex-grow">
+                                    <div id="tech-spec-${index}" class="tab-content active space-y-4 pr-2">${renderTechSpecs(solution.technical_specification)}</div>
+                                    <div id="deliverables-${index}" class="tab-content space-y-3 pr-2">${renderDeliverables(solution.deliverables)}</div>
+                                    <div id="use-cases-${index}" class="tab-content space-y-4 pr-2">${renderUseCases(solution.use_cases)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `).join('');
+
+                setupTabs();
+            }
+
+            function renderTechSpecs(spec) {
+                const renderTier = (tier) => `
+                    <div class="p-3 bg-gray-50 rounded-lg border">
+                        <h6 class="font-bold text-gray-800">${tier.name}</h6>
+                        <p class="text-xs text-gray-600 mt-1">${tier.description}</p>
+                        <div class="mt-2">
+                           <strong class="text-gray-800 text-xs">Sensors:</strong>
+                           <div class="flex flex-wrap gap-1 mt-1">
+                                ${tier.sensors.map(s => `<span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">${s}</span>`).join('')}
+                           </div>
+                        </div>
+                        <div class="mt-2">
+                           <strong class="text-gray-800 text-xs">Actuators:</strong>
+                           <div class="flex flex-wrap gap-1 mt-1">
+                                ${tier.actuators.map(a => `<span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">${a}</span>`).join('')}
+                           </div>
+                        </div>
+                    </div>
+                `;
+
+                return `
+                    <h4 class="font-bold text-lg">Technical Specifications</h4>
+                    
+                    <div class="text-sm text-gray-600 space-y-2">
+                        <p><strong class="text-gray-800">General Workflow:</strong> ${spec.general_workflow}</p>
+                        <p><strong class="text-gray-800">Technical Workflow:</strong> ${spec.technical_workflow}</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <strong class="text-gray-800 text-sm">Data Handling:</strong>
+                        <div class="p-3 bg-blue-50 rounded-lg border border-blue-200 text-sm">
+                            <p><strong class="font-semibold">Stored:</strong> ${spec.data.stored}</p>
+                            <p class="mt-1"><strong class="font-semibold">Transmitted:</strong> ${spec.data.transmitted}</p>
+                            <p class="mt-1"><strong class="font-semibold">Transformed:</strong> ${spec.data.transformed}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <strong class="text-gray-800 text-sm">Product Tiers:</strong>
+                        <div class="space-y-3">
+                            ${renderTier(spec.tiers.tier_1_mvp)}
+                            ${renderTier(spec.tiers.tier_2_general)}
+                            ${renderTier(spec.tiers.tier_3_comprehensive)}
+                        </div>
+                    </div>
+                `;
+            }
+
+
+            function renderDeliverables(deliverable) {
+                return `
+                     <h4 class="font-bold text-lg">Deliverables</h4>
+                     <p class="text-sm text-gray-600"><strong class="text-gray-800">Dashboard:</strong> ${deliverable.dashboard}</p>
+                     <p class="text-sm text-gray-600"><strong class="text-gray-800">Field Actuation:</strong> ${deliverable.field_actuation.trigger} &rarr; ${deliverable.field_actuation.actuator_and_action}</p>
+                     <p class="text-sm text-gray-600"><strong class="text-gray-800">Benefits:</strong> ${deliverable.subscription_benefits}</p>
+                `;
+            }
+
+            function renderUseCases(useCases) {
+                return useCases.map(uc => `
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <strong class="text-gray-800">${uc.client}</strong>
+                        <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                            <div class="bg-red-50 p-2 rounded">
+                                <p class="font-semibold text-red-800">Before</p>
+                                <p class="text-gray-600">${uc.before}</p>
+                            </div>
+                             <div class="bg-green-50 p-2 rounded">
+                                <p class="font-semibold text-green-800">After</p>
+                                <p class="text-gray-600">${uc.after}</p>
+                            </div>
+                        </div>
+                    </div>
+                 `).join('');
+            }
+
+            function renderCompetitors(competitors) {
+                const grid = document.getElementById('competitors-grid');
+                if (!competitors || !grid) return;
+                grid.innerHTML = competitors
+                    .filter(c => c.name && c.description && !c.description.toLowerCase().includes("information"))
+                    .map(c => `
+                    <div class="card p-6 flex flex-col space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <img src="./${c.name.replace(/\s/g, '')}.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/cccccc/333333?text=${c.name.charAt(0)}';" alt="${c.name} Logo" class="w-16 h-16 rounded-full flex-shrink-0 object-cover">
+                            <div>
+                                <h3 class="text-xl font-bold">${c.name}</h3>
+                                 <a href="${c.site}" target="_blank" rel="noopener noreferrer" class="text-sm main-red hover:underline break-all">${c.site}</a>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 flex-grow">${c.description}</p>
+                        ${c.provided_product_services && c.provided_product_services.length > 0 ? `
+                        <div>
+                           <h4 class="font-semibold text-sm mb-2">Products & Services:</h4>
+                           <div class="space-y-2">
+                            ${c.provided_product_services.map(p => `
+                                <div class="p-2 bg-gray-50 rounded-md">
+                                    <p class="font-bold text-gray-800 text-sm">${p.name}</p>
+                                    <p class="text-xs text-gray-600">${p.description}</p>
+                                </div>
+                            `).join('')}
+                           </div>
+                        </div>
+                        ` : ''}
+
+                        ${c.latest_funding && c.latest_funding.date ? `
+                        <div class="mt-auto pt-4 border-t border-gray-200 text-sm">
+                           <h4 class="font-semibold mb-1">Latest Funding:</h4>
+                           <p><strong class="font-medium">Date:</strong> ${c.latest_funding.date}</p>
+                           <p><strong class="font-medium">Amount:</strong> ${c.latest_funding.amount}</p>
+                           <p><strong class="font-medium">Investors:</strong> ${c.latest_funding.VC_acquirer_name.join(', ')}</p>
+                        </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            function renderTeam(team) {
+                const grid = document.getElementById('team-grid');
+                if (!team || !grid) return;
+                const teamMembers = [
+                    { name: team.CEO, title: 'Chief Executive Officer' },
+                    { name: team.CTO, title: 'Chief Technology Officer' }
+                ];
+                grid.innerHTML = teamMembers.map(member => `
+                    <div class="text-center">
+                        <img src="./${member.name.split(' ').map(n => n[0]).join('')}.png" onerror="this.onerror=null;this.src='https://placehold.co/200x200/F9FAFB/E91E21?text=${member.name.split(' ').map(n => n[0]).join('')}';" alt="Avatar for ${member.name}" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                        <h4 class="text-xl font-bold">${member.name}</h4>
+                        <p class="main-red font-semibold">${member.title}</p>
+                    </div>
+                `).join('');
+            }
+
+            // --- Tab Functionality ---
+            function setupTabs() {
+                const allTabButtons = document.querySelectorAll('.tab-button');
+                allTabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabContainer = button.parentElement;
+                        const contentContainer = tabContainer.nextElementSibling;
+
+                        // Deactivate sibling buttons and content
+                        tabContainer.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                        contentContainer.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                        // Activate clicked button and corresponding content
+                        button.classList.add('active');
+                        document.getElementById(button.dataset.tab).classList.add('active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
